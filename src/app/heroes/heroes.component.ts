@@ -15,14 +15,16 @@ export class HeroesComponent implements OnInit {
   //   name: 'WindStorm'
   // };
 
-  selectedHero: Hero;
+  // 2nd attempt
+  // selectedHero: Hero;
 
   // heroes = HEROES;
   heroes: Hero[]; 
 
-  onSelect(hero: Hero) :void {
-    this.selectedHero = hero;
-  }
+  // 2nd attempt
+  // onSelect(hero: Hero) :void {
+  //   this.selectedHero = hero;
+  // }
 
   // getHeroes(): void {
   //   this.heroes = this.heroService.getHeroes();
