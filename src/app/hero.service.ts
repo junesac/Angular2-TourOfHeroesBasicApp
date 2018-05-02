@@ -36,6 +36,7 @@ export class HeroService {
   // Added for http
   private heroesUrl = 'api/heroes';
 
+
   getHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>(this.heroesUrl)
     .pipe(
@@ -52,6 +53,17 @@ export class HeroService {
       tap(_ => this.log(`fetched hero with id=${id}`)),
       catchError(this.handleError<Hero>(`getHero with id=${id}`))
     );
+  }
+
+  updateHero(hero: Hero): Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.put(this.heroesUrl, hero, httpOptions)
+      .pipe(
+        tap(_ => this.log(`updated hero = ${hero.id}`)),
+        catchError(this.handleError<any>('Update Hero'))
+      );
   }
 
   /**
