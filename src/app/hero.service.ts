@@ -42,7 +42,31 @@ export class HeroService {
 
 
   getHeroes(): Observable<Hero[]> {
-    return this.http.get<Hero[]>(this.heroesUrl)
+    const url = 'http://localhost:7777/activity/get';
+
+    let username : string = 'Sachin';
+    let password : string = 'password';
+    let headers = new HttpHeaders();
+    console.log(btoa(username + ':' + password));
+    headers = headers.append('Authorization', 'Basic ' + btoa(username + ':' + password)); 
+    headers = headers.append('Content-Type', 'application/json');
+    // headers = headers.append('Access-Control-Allow-Origin', 'http://localhost:4200');
+
+    // RequestOptions options = new RequestOptions();
+    // options.headers = new Headers();
+    // options.headers.append('Content-Type', 'application/json');
+
+    this.http.get(url, {headers: headers}).subscribe(
+      data => {
+        console.log(data);
+      },
+      err => {
+        console.log(err);
+      },
+      () => console.log('Request Complete')
+    );
+
+    return this.http.get<Hero[]>(url, {headers: headers})
     .pipe(
       tap(heroes => this.log(`fetched heroes`)),
       catchError(this.handleError('getHeroes', []))
