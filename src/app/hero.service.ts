@@ -4,10 +4,12 @@ import { HEROES } from './mock-heroes';
 import { Observable } from 'rxjs/Observable';
 import  { of } from 'rxjs/observable/of';
 import { MessageService } from './message.service';
-
+import { Http, Headers } from '@angular/http';
+import { RequestOptions } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 // Added for http calls
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 const httpOptions = {
@@ -42,23 +44,22 @@ export class HeroService {
 
 
   getHeroes(): Observable<Hero[]> {
-    const url = 'http://localhost:7777/activity/get';
 
     let username : string = 'Sachin';
     let password : string = 'password';
+
     let headers = new HttpHeaders();
-    console.log(btoa(username + ':' + password));
-    headers = headers.append('Authorization', 'Basic ' + btoa(username + ':' + password)); 
-    headers = headers.append('Content-Type', 'application/json');
-    // headers = headers.append('Access-Control-Allow-Origin', 'http://localhost:4200');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    headers.append('Authorization', 'Basic ' + btoa(username + ':' + password));
 
-    // RequestOptions options = new RequestOptions();
-    // options.headers = new Headers();
-    // options.headers.append('Content-Type', 'application/json');
+    let url = 'http://localhost:7777/activity/get';
 
-    this.http.get(url, {headers: headers}).subscribe(
+    this.http.get(url, {headers, withCredentials: true}).subscribe(
       data => {
         console.log(data);
+        this.messageService.add('Response from actual service : '
+          + data.uaName + ' : '+ data.calories);
       },
       err => {
         console.log(err);
