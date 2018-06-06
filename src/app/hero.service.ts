@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Hero } from './hero';
+import { Activity } from './activity';
 import { HEROES } from './mock-heroes';
 import { Observable } from 'rxjs/Observable';
 import  { of } from 'rxjs/observable/of';
@@ -55,10 +56,10 @@ export class HeroService {
 
     let url = 'http://localhost:7777/activity/get';
 
-    this.http.get(url, {headers, withCredentials: true}).subscribe(
+    this.http.get<Activity>(url, {headers, withCredentials: true}).subscribe(
       data => {
         console.log(data);
-        this.messageService.add('Response from actual service : '
+        this.messageService.add('Response from actual service : ' 
           + data.uaName + ' : '+ data.calories);
       },
       err => {
